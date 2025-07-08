@@ -25,13 +25,18 @@ export class ProductsService {
     data: {
       name?: string;
       image?: string;
-      price?: number;
-      negativeAmount?: number;
+      price?: string;
+      negativeAmount?: string;
       endDate?: string;
-      isActive?: boolean;
+      isActive?: string;
     }
   ) {
-    const updateData: any = { ...data };
+    const updateData: any = {
+      ...data,
+      price: parseFloat(data.price),
+      negativeAmount: parseFloat(data.negativeAmount),
+      isActive: data.isActive === "true" ? true : false,
+    };
     if (data.endDate) {
       updateData.endDate = new Date(data.endDate);
     }
