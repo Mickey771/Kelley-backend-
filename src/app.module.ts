@@ -6,11 +6,22 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
+import { AdminModule } from "./admin/admin.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
+import { UsersController } from "./users/users.controller";
+import { UsersService } from "./users/users.service";
+import { ProductsModule } from "./products/products.module";
+import { TasksModule } from "./tasks/tasks.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "uploads"),
+      serveRoot: "/uploads",
     }),
     CacheModule.register({
       isGlobal: true,
@@ -20,8 +31,11 @@ import { AuthModule } from "./auth/auth.module";
     }),
     PrismaModule,
     AuthModule,
+    AdminModule,
+    ProductsModule,
+    TasksModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UsersController],
+  providers: [AppService, UsersService],
 })
 export class AppModule {}

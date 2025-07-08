@@ -65,15 +65,15 @@ export class AuthService {
       where: { username },
     });
 
-    console.log("user", user);
+    // console.log("user", user);
 
-    console.log("comparison", await bcrypt.compare(password, user.password));
+    // console.log("comparison", await bcrypt.compare(password, user.password));
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException("Invalid credentials");
     }
 
-    const payload = { sub: user.id, username: user.username };
+    const payload = { sub: user.id, username: user.username, type: "user" };
     return {
       access_token: this.jwtService.sign(payload),
       user: {
